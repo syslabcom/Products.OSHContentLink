@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<import-steps>
+
+<import-step 
+    id="OSHContentLink-GS-dependencies" 
+    handler="Products.OSHContentLink.setuphandlers.installGSDependencies"
+    title="Dependend GS profiles for OSHContentLink"
+    version="2008-03-05T13:48:03.878147">
+   <dependency step="plone-final"/>
+   <dependency step="OSHContentLink-QI-dependencies"/>
+   Install Generic Setup profile dependencies for OSHContentLink
+ </import-step>
+
+ <import-step 
+    id="OSHContentLink-QI-dependencies" 
+    handler="Products.OSHContentLink.setuphandlers.installQIDependencies"
+    title="Dependend QI installables for OSHContentLink"
+    version="2008-03-05T13:48:03.878147">
+   Install quickinstaller dependencies for OSHContentLink
+ </import-step>
+ 
+     
+
+
+ <import-step 
+    id="OSHContentLink-Update-RoleMappings" 
+    handler="Products.OSHContentLink.setuphandlers.updateRoleMappings"
+    title="Update Workflow role mappings for OSHContentLink"
+    version="2008-03-05T13:48:03.878147">
+   <dependency step="OSHContentLink-QI-dependencies"/>
+   updates the workflow role mappings for OSHContentLink
+ </import-step>
+
+ <import-step 
+    id="OSHContentLink-postInstall" 
+    handler="Products.OSHContentLink.setuphandlers.postInstall"
+    title="manual coded post-install for OSHContentLink"
+    version="2008-03-05T13:48:03.878147">
+   <dependency step="OSHContentLink-QI-dependencies"/>
+   manual coded post-install for OSHContentLink
+ </import-step>
+
+<!-- ##code-section ADDITIONALSTEPS -->
+<!-- ##/code-section ADDITIONALSTEPS --> 
+
+</import-steps>
+ 
