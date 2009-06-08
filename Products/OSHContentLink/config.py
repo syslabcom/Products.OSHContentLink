@@ -27,7 +27,7 @@ from Products.CMFCore.permissions import setDefaultRoles
 ##/code-section config-head
 
 
-PROJECTNAME = "Products.OSHContentLink"
+PROJECTNAME = "OSHContentLink"
 
 # Permissions
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
