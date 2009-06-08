@@ -1,0 +1,213 @@
+# archgenxml generated POT File
+# unknown <unknown>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: OSHContentLink\n"
+"POT-Creation-Date: Fri Nov  9 14:43:27 2007\n"
+"PO-Revision-Date: Fri Nov  9 14:43:27 2007\n"
+"Last-Translator: unknown <unknown>\n"
+"Language-Team: unknown <unknown>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: OSHContentLink\n"
+
+#. Default: "The author of the published journal/article"
+#: OSH_Link.py
+msgid "OSHContentLink_help_author"
+msgstr ""
+
+#. Default: "Enter one element per line"
+#: OSH_Link.py
+msgid "OSHContentLink_help_cas"
+msgstr ""
+
+#. Default: "Enter one element per line."
+#: OSH_Link.py
+msgid "OSHContentLink_help_einecs"
+msgstr ""
+
+#. Default: "Add arbitrary comments to communicate during the workflow. These comments are not shown in the view."
+#: OSH_Link.py
+msgid "OSHContentLink_help_general_comments"
+msgstr ""
+
+#. Default: "ISBN numbers applicable to this information."
+#: OSH_Link.py
+msgid "OSHContentLink_help_isbn_d"
+msgstr ""
+
+#. Default: "Name of the organisation"
+#: OSH_Link.py
+msgid "OSHContentLink_help_organisation_name"
+msgstr ""
+
+#. Default: "Print reference"
+#: OSH_Link.py
+msgid "OSHContentLink_help_printref"
+msgstr ""
+
+#. Default: "The Provider of this information."
+#: OSH_Link.py
+msgid "OSHContentLink_help_provider"
+msgstr ""
+
+#. Default: "The date on which this information has been published."
+#: OSH_Link.py
+msgid "OSHContentLink_help_publication_date"
+msgstr ""
+
+#. Default: "The provider of the linked information."
+#: OSH_Link.py
+msgid "OSHContentLink_help_publisher_provider"
+msgstr ""
+
+#. Default: "Select the languages in which the referenced information is available in. This does not refer to this page but to the link target!"
+#: OSH_Link.py
+msgid "OSHContentLink_help_remoteLanguage"
+msgstr ""
+
+#. Default: "The name of the provider of the linked information."
+#: OSH_Link.py
+msgid "OSHContentLink_help_remoteProvider"
+msgstr ""
+
+#. Default: "The web address of the information we link to."
+#: OSH_Link.py
+msgid "OSHContentLink_help_remoteUrl"
+msgstr ""
+
+#. Default: "Select Languages which this content applies to. Languages are taken from the central portal language list."
+#: OSH_Link.py
+msgid "OSHContentLink_help_remote_language"
+msgstr ""
+
+#. Default: "The description contains the main textual information about the link."
+#: OSH_Link.py
+msgid "OSHContentLink_help_remote_url"
+msgstr ""
+
+#. Default: "Select a position in the site where this item should show up. The selected target must be a sub site like Good Practice/Accident Prevention"
+#: OSH_Link.py
+msgid "OSHContentLink_help_site_position"
+msgstr ""
+
+#. Default: "Check if this information is relevant for SMEs. This causes the information to show up on SME index pages."
+#: OSH_Link.py
+msgid "OSHContentLink_help_sme"
+msgstr ""
+
+#. Default: "text"
+#: OSH_Link.py
+msgid "OSHContentLink_help_text"
+msgstr ""
+
+#. Default: "Author"
+#: OSH_Link.py
+msgid "OSHContentLink_label_author"
+msgstr ""
+
+#. Default: "CAS"
+#: OSH_Link.py
+msgid "OSHContentLink_label_cas"
+msgstr ""
+
+#. Default: "Description"
+#: OSH_Link.py
+msgid "OSHContentLink_label_description"
+msgstr ""
+
+#. Default: "EINECS"
+#: OSH_Link.py
+msgid "OSHContentLink_label_einecs"
+msgstr ""
+
+#. Default: "General Comments"
+#: OSH_Link.py
+msgid "OSHContentLink_label_general_comments"
+msgstr ""
+
+#. Default: "ISBN D"
+#: OSH_Link.py
+msgid "OSHContentLink_label_isbn_d"
+msgstr ""
+
+#. Default: "Organisation name"
+#: OSH_Link.py
+msgid "OSHContentLink_label_organisation_name"
+msgstr ""
+
+#. Default: "Record type"
+#: OSH_Link.py
+msgid "OSHContentLink_label_osh_recordtype"
+msgstr ""
+
+#. Default: "Printref"
+#: OSH_Link.py
+msgid "OSHContentLink_label_printref"
+msgstr ""
+
+#. Default: "Provider"
+#: OSH_Link.py
+msgid "OSHContentLink_label_provider"
+msgstr ""
+
+#. Default: "Publication Date"
+#: OSH_Link.py
+msgid "OSHContentLink_label_publication_date"
+msgstr ""
+
+#. Default: "Provider"
+#: OSH_Link.py
+msgid "OSHContentLink_label_publisher_provider"
+msgstr ""
+
+#. Default: "Languages of the target"
+#: OSH_Link.py
+msgid "OSHContentLink_label_remoteLanguage"
+msgstr ""
+
+#. Default: "Provider of the linked information"
+#: OSH_Link.py
+msgid "OSHContentLink_label_remoteProvider"
+msgstr ""
+
+#. Default: "Remote URL"
+#: OSH_Link.py
+msgid "OSHContentLink_label_remoteUrl"
+msgstr ""
+
+#. Default: "Languages"
+#: OSH_Link.py
+msgid "OSHContentLink_label_remote_language"
+msgstr ""
+
+#. Default: "Remote URL"
+#: OSH_Link.py
+msgid "OSHContentLink_label_remote_url"
+msgstr ""
+
+#. Default: "Site Position"
+#: OSH_Link.py
+msgid "OSHContentLink_label_site_position"
+msgstr ""
+
+#. Default: "SME relevant?"
+#: OSH_Link.py
+msgid "OSHContentLink_label_sme"
+msgstr ""
+
+#. Default: "Body Text"
+#: OSH_Link.py
+msgid "OSHContentLink_label_text"
+msgstr ""
+
+#. Default: "Body Text"
+#: OSH_Link.py
+msgid "u'label_body_text"
+msgstr ""
+

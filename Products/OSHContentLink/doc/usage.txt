@@ -1,0 +1,57 @@
+Overview
+========
+
+by Wolfgang Thomas <thomas@syslab.com> and Alexander Pilz <pilz@syslab.com>
+
+The OSHContenLink can be used to hold link information in a matter that is relevant in the OSH environment. Apart from the usual textual description and the URL of a source in the internet, several fields offer the possibility for further description and classification.
+
+Note: You can run the tests in this file by typing
+
+    bin/instance test -m Products.OSHContentLink
+
+Required Products
+=================
+
+Plone 3
+
+Adding and editing an OSH Link
+==============================
+
+We create our first OSH LinkaddOSH
+
+    >>> linkid = 'mylink'
+    >>> _ = self.folder.invokeFactory('OSH_Link', linkid)
+    >>> linkid in self.folder.objectIds()
+    True
+    >>> l = getattr(self.folder, linkid)
+    
+    We check for some basics: correct type names
+    >>> l.meta_type
+    'OSH_Link'
+    >>> l.portal_type
+    'OSH_Link'
+    >>> l.archetype_name
+    'OSH Link'
+
+    The languages supported by an OSH Link are taken from the Language Tool
+    >>> len(l.getLanguages()) == len(self.portal.portal_languages.getSupportedLanguages())
+    True
+    
+    Set some languages on the Link.
+    >>> languages = ('en', 'de')
+    >>> l.setRemoteLanguage(languages)
+    >>> l.getRemoteLanguage() == languages
+    True
+    
+    For the description, we want to use the HTML-scrubbed version of the Link's text field.
+    >>> l.setDescription(u'<b>My invisible description</b>')
+    >>> l.setText(u'<b>My text</b>')
+    >>> l.Description()
+    'My text'
+    >>> l.getDescription()
+    'My text'
+    >>> l.getText()
+    '<b>My text</b>'
+    
+     
+     

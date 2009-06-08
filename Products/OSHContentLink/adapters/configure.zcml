@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five">
+
+    <configure zcml:condition="installed gocept.linkchecker">
+        <adapter factory=".lmsretrievers.OSHLinkRetriever"/>
+    </configure>
+
+
+    <adapter factory=".textindex_adapters.OSHLinkContentAdapter"/>
+    
+
+
+    <!-- Splitters -->
+   
+  <utility
+      provides="zope.component.interfaces.IFactory"
+      component=".textindex_splitters.UrlNotSplitterFactory"
+      name="oshlink.splitters.url_not_splitter"
+      />
+
+  <utility
+      provides="textindexng.interfaces.ISplitter"
+      factory=".textindex_splitters.UrlNotSplitterFactory"
+      name="oshlink.splitters.url_not_splitter"
+      />
+
+
+</configure>

@@ -1,50 +1,89 @@
-"""Main product initializer
-"""
+# -*- coding: utf-8 -*-
+#
+# File: OSHContentLink.py
+#
+# Copyright (c) 2008 by []
+# Generator: ArchGenXML Version 2.0-beta11
+#            http://plone.org/products/archgenxml
+#
+# GNU General Public License (GPL)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+#
 
-from zope.i18nmessageid import MessageFactory
-from Products.OSHContentLink import config
+__author__ = """Syslab.com GmbH <info@syslab.com>"""
+__docformat__ = 'plaintext'
 
-from Products.Archetypes import atapi
-from Products.CMFCore import utils
-from Products.CMFCore.permissions import setDefaultRoles
 
-# Define a message factory for when this product is internationalised.
-# This will be imported with the special name "_" in most modules. Strings
-# like _(u"message") will then be extracted by i18n tools for translation.
+# There are three ways to inject custom code here:
+#
+#   - To set global configuration variables, create a file AppConfig.py.
+#       This will be imported in config.py, which in turn is imported in
+#       each generated class and in this file.
+#   - To perform custom initialisation after types have been registered,
+#       use the protected code section at the bottom of initialize().
 
-OSHContentLinkMessageFactory = MessageFactory('Products.OSHContentLink')
+import logging
+logger = logging.getLogger('OSHContentLink')
+logger.debug('Installing Product')
+
+import os
+import os.path
+from Globals import package_home
+import Products.CMFPlone.interfaces
+from Products.Archetypes import listTypes
+from Products.Archetypes.atapi import *
+from Products.Archetypes.utils import capitalize
+from Products.CMFCore import DirectoryView
+from Products.CMFCore import permissions as cmfpermissions
+from Products.CMFCore import utils as cmfutils
+from Products.CMFPlone.utils import ToolInit
+from config import *
+
+DirectoryView.registerDirectory('skins', product_globals)
+
+
+##code-section custom-init-head #fill in your manual code here
+##/code-section custom-init-head
+
 
 def initialize(context):
-    """Initializer called when used as a Zope 2 product.
+    """initialize product (called by zope)"""
+    ##code-section custom-init-top #fill in your manual code here
+    ##/code-section custom-init-top
 
-    This is referenced from configure.zcml. Regstrations as a "Zope 2 product"
-    is necessary for GenericSetup profiles to work, for example.
+    # imports packages and types for registration
 
-    Here, we call the Archetypes machinery to register our content types
-    with Zope and the CMF.
-    """
+    import OSH_Link
 
-    # Retrieve the content types that have been registered with Archetypes
-    # This happens when the content type is imported and the registerType()
-    # call in the content type's module is invoked. Actually, this happens
-    # during ZCML processing, but we do it here again to be explicit. Of
-    # course, even if we import the module several times, it is only run
-    # once.
+    # Initialize portal content
+    content_types, constructors, ftis = process_types(
+        listTypes(PROJECTNAME),
+        PROJECTNAME)
 
-    content_types, constructors, ftis = atapi.process_types(
-        atapi.listTypes(config.PROJECTNAME),
-        config.PROJECTNAME)
+    cmfutils.ContentInit(
+        PROJECTNAME + ' Content',
+        content_types      = content_types,
+        permission         = DEFAULT_ADD_CONTENT_PERMISSION,
+        extra_constructors = constructors,
+        fti                = ftis,
+        ).initialize(context)
 
-    # Now initialize all these content types. The initialization process takes
-    # care of registering low-level Zope 2 factories, including the relevant
-    # add-permission. These are listed in config.py. We use different
-    # permissions for each content type to allow maximum flexibility of who
-    # can add which content types, where. The roles are set up in rolemap.xml
-    # in the GenericSetup profile.
+    ##code-section custom-init-bottom #fill in your manual code here
+    ##/code-section custom-init-bottom
 
-    for atype, constructor in zip(content_types, constructors):
-        utils.ContentInit('%s: %s' % (config.PROJECTNAME, atype.portal_type),
-            content_types      = (atype,),
-            permission         = config.ADD_PERMISSIONS[atype.portal_type],
-            extra_constructors = (constructor,),
-            ).initialize(context)
+from zope.i18nmessageid import MessageFactory
+OSHContentLinkMessageFactory = MessageFactory('OSHContentLink')
