@@ -1,7 +1,12 @@
 Changelog
 =========
 
-Products.OSHContentLink 1.1 (2009-06-19)
+Products.OSHContentLink 1.2.1 (2009-06-19)
+------------------------------------------
+
+- bugfix: we don't delete Subject from the Schema, we just hide it (thomasw)
+
+Products.OSHContentLink 1.2 (2009-06-19)
 ----------------------------------------
 
 - Add tests, cleanup (thomas)
