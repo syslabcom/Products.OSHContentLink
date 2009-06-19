@@ -183,7 +183,8 @@ OSH_Link_schema = BaseSchema.copy() + \
     schema.copy()
 
 # Subjects will be determined based on the choosen category. Only gettable!
-del OSH_Link_schema['subject']
+OSH_Link_schema['subject'].widget.visible['edit'] = 'invisible'
+OSH_Link_schema['subject'].widget.visible['view'] = 'invisible'
 
 
 finalizeATCTSchema(OSH_Link_schema)
