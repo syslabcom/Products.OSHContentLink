@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.1 (2009-06-04)
-----------------
+Products.OSHContentLink 1.1 (2009-06-19)
+----------------------------------------
+
+- Add tests, cleanup (thomas)
+
+- Fix broken package (thomas)
+
+Products.OSHContentLink 1.1 (2009-06-04)
+----------------------------------------
 
 - Created recipe with ZopeSkel
   [Syslab.com GmbH]

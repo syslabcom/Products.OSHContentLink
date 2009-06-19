@@ -49,7 +49,7 @@ And we ensure that we get the friendly logged-in message:
 
 
 Adding an OSH Link
-===================
+==================
 
 Now we add an OSH Link and make sure the id is set correctly.
 
