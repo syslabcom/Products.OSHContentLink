@@ -10,7 +10,7 @@
 
 
     <subscriber for="Products.OSHContentLink.interfaces.IOSH_Link
-        zope.app.event.objectevent.IObjectCreatedEvent"
+        Products.Archetypes.interfaces.IObjectInitializedEvent"
         handler=".handlers.handle_object_created"
         />
 
