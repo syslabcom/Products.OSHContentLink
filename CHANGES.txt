@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Products.OSHContentLink 1.2.x (unreleased)
+Products.OSHContentLink 1.2.2 (2009-09-30)
 ------------------------------------------
 
 - bugfix: Automatic setting of publication date did not work (gerken)
