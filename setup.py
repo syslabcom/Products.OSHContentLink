@@ -63,5 +63,4 @@ setup(name='Products.OSHContentLink',
       entry_points="""
       # -*- entry_points -*- 
       """,
-      paster_plugins = ["ZopeSkel"],
       )
