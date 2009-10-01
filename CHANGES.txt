@@ -4,7 +4,7 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- bugfix: Automatic setting of publication date did not work, part 2 (gerken)
 
 
 Products.OSHContentLink 1.2.2 (2009-09-30)
