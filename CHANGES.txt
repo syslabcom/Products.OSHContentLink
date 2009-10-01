@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.3 (unreleased)
+1.2.3 (2009-10-02)
 ------------------
 
 - bugfix: Automatic setting of publication date did not work, part 2 (gerken)
