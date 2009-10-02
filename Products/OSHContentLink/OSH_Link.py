@@ -83,10 +83,12 @@ schema = Schema((
     StringField(
         name='provider',
         required=False,
-        widget=StringField._properties['widget'](
-            label=_(u'oshlink_provider_label', default=u'Provider'),
-            description=_(u'osjlink_provider_description', default=u'"Old style" provider'),
-            size=80,
+        
+        widget=ComputedWidget(
+            label=_(u'oshlink_provider_label', default=u'"Old style" Provider'),
+            description=_(u'oshlink_provider_description', default=u'This information is displayed for historic reasons, '
+             u'since Providers used to be entered as plain text. Please choose the appropriate provider from the "Provider of the linked information" field below.'),
+            condition="python:object.getProvider()!='' and not object.getRemoteProvider()",
         ),
     ),
     ReferenceField(
