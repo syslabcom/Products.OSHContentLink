@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 - bugfix: Automatic setting of publication date did not work, part 2 (gerken)
+- display "old style" provider as read-only, and only if it is not empty and no
+  linked provider has been chosen (thomasw)
 
 
 Products.OSHContentLink 1.2.2 (2009-09-30)
