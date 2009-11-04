@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.4 (unreleased)
+------------------
+- We don't set the publication date on object creation any longer (gerken)
+
 1.2.3 (2009-10-02)
 ------------------
 
