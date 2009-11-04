@@ -1,17 +1,13 @@
 Changelog
 =========
 
-<<<<<<< HEAD:CHANGES.txt
 1.2.4 (unreleased)
 ------------------
+
 - We don't set the publication date on object creation any longer (gerken)
 
 1.2.3 (2009-10-02)
 ------------------
-=======
-Products.OSHContentLink 1.2.3 (unreleased)
-------------------------------------------
->>>>>>> Fixup2:CHANGES.txt
 
 - bugfix: Automatic setting of publication date did not work, part 2 (gerken)
 - display "old style" provider as read-only, and only if it is not empty and no
