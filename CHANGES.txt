@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.2.4 (unreleased)
+1.2.4 (2009-11-17)
 ------------------
 
 - We don't set the publication date on object creation any longer (gerken)
+- use osha.theme's ContentAdapter for the textindexng3 adapter
 
 1.2.3 (2009-10-02)
 ------------------
