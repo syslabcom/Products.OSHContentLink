@@ -191,7 +191,7 @@ OSH_Link_schema['subject'].widget.visible['view'] = 'invisible'
 
 finalizeATCTSchema(OSH_Link_schema)
 
-unwantedFields = ['relatedItems', 'language', 'location', 'excludeFromNav', 
+unwantedFields = ['relatedItems', 'location', 'excludeFromNav', 
     'tableContents', 'presentation', 'allowDiscussion']
 for name in unwantedFields:
     OSH_Link_schema[name].widget.visible['edit'] = 'invisible'
@@ -206,6 +206,8 @@ OSH_Link_schema.changeSchemataForField('effectiveDate', 'default')
 # move expirationDate to the default tab under publication_date
 OSH_Link_schema.changeSchemataForField('expirationDate', 'default')
 
+# move language to settings
+OSH_Link_schema.changeSchemataForField('language', 'settings')
 
 
 class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
