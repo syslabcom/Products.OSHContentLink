@@ -356,10 +356,12 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         
         rs = []
         for term in myterms:
-            caption = manager.getTermCaptionById(term, lang).strip()
-            letter = caption[0].upper()
-            url = "%s/@@index_alphabetical?letter=%s&term_id=%s" %(portal_url.getPortalPath(), letter, term)
-            rs.append(dict(id=term, title=caption, url=url))
+            caption = manager.getTermCaptionById(term, lang)
+            if caption:
+                caption = caption.strip()
+                letter = caption[0].upper()
+                url = "%s/@@index_alphabetical?letter=%s&term_id=%s" %(portal_url.getPortalPath(), letter, term)
+                rs.append(dict(id=term, title=caption, url=url))
         
         rs.sort(lambda x,y: cmp(x['title'], y['title']))
         return rs

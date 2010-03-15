@@ -4,8 +4,7 @@ Changelog
 1.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Don't fail if an illegal MT-subject id is used (thomasw)
 
 1.2.5 (2010-02-10)
 ------------------
