@@ -27,6 +27,7 @@
            tal:condition="descr"
            tal:content="structure descr" />
 
+        <div tal:replace="structure provider:plone.abovecontentbody" />
     
         <fieldset>
             <legend i18n:translate="label_metadata">Metadata</legend>

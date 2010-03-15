@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Don't fail if an illegal MT-subject id is used (thomasw)
+- Show the abovecontentbody viewlet (thomasw)
 
 1.2.5 (2010-02-10)
 ------------------
