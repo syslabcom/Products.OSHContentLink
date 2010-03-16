@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.6 (unreleased)
+1.2.6 (2010-03-16)
 ------------------
 
 - Don't fail if an illegal MT-subject id is used (thomasw)
