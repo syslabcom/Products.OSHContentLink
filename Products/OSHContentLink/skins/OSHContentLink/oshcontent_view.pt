@@ -17,11 +17,7 @@
             <span tal:replace="here/Title |nothing" /> 
         </h1>
 
-        <span class="documentByLine">
-            <span i18n:translate="label_published">published:</span> 
-            <span tal:on-error="python:toLocalizedTime('2000/01/01', long_format=0)"
-                  tal:replace="python:toLocalizedTime(here.getPublication_date(), long_format=False)"/>
-        </span>
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
 
         <p tal:define="descr here/Description|nothing"
            tal:condition="descr"
