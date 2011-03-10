@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.2.7 (unreleased)
+1.2.7 (2011-03-10)
 ------------------
 
-- Nothing changed yet.
-
+- Show plone.belowcontenttitle on the main view (thomasw)
 
 1.2.6 (2010-03-16)
 ------------------
