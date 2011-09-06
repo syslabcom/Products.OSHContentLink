@@ -12,8 +12,7 @@ import re
 from zope.component.interfaces import IFactory
 from zope.interface import implements, implementedBy
 
-from Products.TextIndexNG3.src.textindexng.interfaces import ISplitter
-
+from zopyx.txng3.core.interfaces import ISplitter
 
 ## patterns used by the splitter (will be compiled to regexes)
 SPLIT_AT = '\s|\t'
