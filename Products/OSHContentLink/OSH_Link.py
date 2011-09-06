@@ -32,7 +32,7 @@ from Products.OSHContentLink.config import *
 # additional imports from tagged value 'import'
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from Products.ATContentTypes.content.document import ATDocumentSchema
-from Products.VocabularyPickerWidget.VocabularyPickerWidget import VocabularyPickerWidget
+# from Products.VocabularyPickerWidget.VocabularyPickerWidget import VocabularyPickerWidget
 
 ##code-section module-header #fill in your manual code here
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
@@ -93,15 +93,15 @@ schema = Schema((
     ),
     ReferenceField(
         name='remoteProvider',
-        widget=VocabularyPickerWidget(
-            description=_(u'oshlink_remoteProvider_description', default=u"The name of the provider of the linked information."),
-            label=_(u'oshlink_remoteProvider_label', default=u"Provider of the linked information"),
-            level=2,
-            vocabulary='getProviderVocabulary',
-            sortAlphabetically=True,
-            hide_id=True,
-            quicksearch_vocabulary='getProviderQuicksearch',
-        ),
+        # widget=VocabularyPickerWidget(
+        #     description=_(u'oshlink_remoteProvider_description', default=u"The name of the provider of the linked information."),
+        #     label=_(u'oshlink_remoteProvider_label', default=u"Provider of the linked information"),
+        #     level=2,
+        #     vocabulary='getProviderVocabulary',
+        #     sortAlphabetically=True,
+        #     hide_id=True,
+        #     quicksearch_vocabulary='getProviderQuicksearch',
+        # ),
         allowed_types=('Provider'),
         relationship="provider_of",
         multiValued=True,
