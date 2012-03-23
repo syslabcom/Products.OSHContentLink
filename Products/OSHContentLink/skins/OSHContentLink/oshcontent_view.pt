@@ -10,7 +10,7 @@
 
     <tal:block define="provider_helper here/@@provider_helper; 
                        ext_url here/getRemoteUrl|string:;
-                       isMember python:str(member)!='Anonymous User';">
+                       isMember not:here/@@plone_portal_state/anonymous;">
 
         <h1><img src=""
             tal:attributes="src string:${portal_url}/oshlink_icon.gif" alt="here/portal_type" i18n:attributes="alt"/> 
