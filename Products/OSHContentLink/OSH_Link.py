@@ -298,6 +298,7 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         provRes = pc(portal_type='Provider', review_state='published', Language='all')
         pvt = getToolByName(self, 'portal_vocabularies')
         VOCAB = pvt.get('provider_category')
+        DL = DisplayList()
         results = dict()
         if VOCAB:
             DL =VOCAB.getDisplayList(self)
@@ -306,11 +307,13 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
                 results[catId] = (catName, dict())
             for res in provRes:
                 if res.getProvider_category in cats:
-                    results[res.getProvider_category][1][res.UID] = (res.Title.strip(), None)
+                    DL.add(
+                        [res.getProvider_category][1][res.UID],
+                        res.Title.strip())
         else:
             for res in provRes:
-                results[res.UID] = (res.Title.strip(), None)
-        return results
+                DL.add(res.UID, res.Title.strip())
+        return DL
 
     security.declarePublic('getProviderQuicksearch')
     @ram.cache(lambda *args: time() // (60 * 60))
