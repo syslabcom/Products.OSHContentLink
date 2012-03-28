@@ -290,7 +290,7 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
 
 
     security.declarePublic('getProviderVocabulary')
-    @ram.cache(lambda *args: time() // (60 * 60))
+#    @ram.cache(lambda *args: time() // (60 * 60))
     def getProviderVocabulary(self):
         """
         """
@@ -307,9 +307,7 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
                 results[catId] = (catName, dict())
             for res in provRes:
                 if res.getProvider_category in cats:
-                    DL.add(
-                        [res.getProvider_category][1][res.UID],
-                        res.Title.strip())
+                    DL.add([res.getProvider_category][1][res.UID], res.Title.strip())
         else:
             for res in provRes:
                 DL.add(res.UID, res.Title.strip())
