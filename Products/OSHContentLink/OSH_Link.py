@@ -29,12 +29,9 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.OSHContentLink.config import *
 
-# additional imports from tagged value 'import'
 from Products.PortalTransforms.transforms.safe_html import scrubHTML
 from Products.ATContentTypes.content.document import ATDocumentSchema
-# from Products.VocabularyPickerWidget.VocabularyPickerWidget import VocabularyPickerWidget
-
-##code-section module-header #fill in your manual code here
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
@@ -93,19 +90,15 @@ schema = Schema((
     ),
     ReferenceField(
         name='remoteProvider',
-        # widget=VocabularyPickerWidget(
-        #     description=_(u'oshlink_remoteProvider_description', default=u"The name of the provider of the linked information."),
-        #     label=_(u'oshlink_remoteProvider_label', default=u"Provider of the linked information"),
-        #     level=2,
-        #     vocabulary='getProviderVocabulary',
-        #     sortAlphabetically=True,
-        #     hide_id=True,
-        #     quicksearch_vocabulary='getProviderQuicksearch',
-        # ),
+        widget=ReferenceBrowserWidget(
+            label=_(u'ra_remoteProvider_label', default=u'Provider of this information'),
+            description=_(u'ra_remoteProvider_description', default=u''),
+            allow_browse=False,
+            show_results_without_query=True,
+        ),
         allowed_types=('Provider'),
         relationship="provider_of",
         multiValued=True,
-        vocabulary='getProviderVocabulary',
     ),
     LinesField(
         name='remoteLanguage',
@@ -285,44 +278,6 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
     def Provider(self):
         """ compatibility to DC """
         return self.getProvider()
-
-
-
-
-    security.declarePublic('getProviderVocabulary')
-#    @ram.cache(lambda *args: time() // (60 * 60))
-    def getProviderVocabulary(self):
-        """
-        """
-        pc = getToolByName(self, 'portal_catalog')
-        provRes = pc(portal_type='Provider', review_state='published', Language='all')
-        pvt = getToolByName(self, 'portal_vocabularies')
-        VOCAB = pvt.get('provider_category')
-        DL = DisplayList()
-        results = dict()
-        if VOCAB:
-            DL =VOCAB.getDisplayList(self)
-            cats = DL.keys()
-            for catId, catName in DL.items():
-                results[catId] = (catName, dict())
-            for res in provRes:
-                if res.getProvider_category in cats:
-                    DL.add([res.getProvider_category][1][res.UID], res.Title.strip())
-        else:
-            for res in provRes:
-                DL.add(res.UID, res.Title.strip())
-        return DL
-
-    security.declarePublic('getProviderQuicksearch')
-    @ram.cache(lambda *args: time() // (60 * 60))
-    def getProviderQuicksearch(self):
-        """ return a DisplayList of all providers """
-        pc = getToolByName(self, 'portal_catalog')
-        provRes = pc(portal_type='Provider', review_state='published', Language='all')
-        DL = DisplayList()
-        for r in provRes:
-            DL.add(r.UID, r.Title.strip())
-        return DL
 
     def _render_cachekey_related(method, self):
         preflang = getToolByName(self, 'portal_languages').getPreferredLanguage()
