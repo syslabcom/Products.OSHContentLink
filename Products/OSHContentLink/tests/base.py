@@ -1,52 +1,39 @@
-"""Test setup for integration and functional tests.
-
-When we import PloneTestCase and then call setupPloneSite(), all of
-Plone's products are loaded, and a Plone site will be created. This
-happens at module level, which makes it faster to run each test, but
-slows down test runner startup.
-"""
-
-
-from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase import PloneTestCase as ptc
-
-from Products.Five import fiveconfigure, zcml
-from Products.PloneTestCase import layer
-
-SiteLayer = layer.PloneSite
-
-class OSHContentLinkLayer(SiteLayer):
-    @classmethod
-    def setUp(cls):
-        ztc.installProduct('OSHContentLink')
-        ptc.setupPloneSite(products=['OSHContentLink'])
-        SiteLayer.setUp()
-
-class TestCase(ptc.PloneTestCase):
-    """We use this base class for all the tests in this package. If
-    necessary, we can put common utility or setup code in here. This
-    applies to unit test cases.
-    """
-    layer = OSHContentLinkLayer
-
-class FunctionalTestCase(ptc.FunctionalTestCase):
-    """We use this class for functional integration tests that use
-    doctest syntax. Again, we can put basic common utility or setup
-    code in here.
-    """
-    layer = OSHContentLinkLayer
-
-    class Session(dict):
-        def set(self, key, value):
-            self[key] = value
-
-    def _setup(self):
-        ptc.FunctionalTestCase._setup(self)
-        self.app.REQUEST['SESSION'] = self.Session()
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
+from plone.app.testing import quickInstallProduct
+from plone.testing import z2
 
 
-    def afterSetUp(self):
-        roles = ('Member', 'Contributor')
-        self.portal.portal_membership.addMember('contributor',
-                                                'secret',
-                                                roles, [])
+class OSHContentLink(PloneSandboxLayer):
+
+    defaultBases = (PLONE_FIXTURE,)
+
+    def setUpZope(self, app, configurationContext):
+        import Products.OSHContentLink
+        self.loadZCML('configure.zcml', package=Products.OSHContentLink)
+
+        import osha.policy.browser
+        self.loadZCML('configure.zcml', package=osha.policy.browser)
+
+        z2.installProduct(app, 'Products.OSHContentLink')
+
+    def setUpPloneSite(self, portal):
+        # Needed to make skins work
+        applyProfile(portal, 'Products.CMFPlone:plone')
+
+        applyProfile(portal, 'Products.OSHContentLink:default')
+
+    def tearDownZope(self, app):
+        z2.uninstallProduct(app, 'Products.OSHContentLink')
+
+
+OSHCONTENTLINK_FIXTURE = OSHContentLink()
+INTEGRATION_TESTING = IntegrationTesting(
+    bases=(OSHCONTENTLINK_FIXTURE,),
+    name="OSHContentLink:Integration")
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(OSHCONTENTLINK_FIXTURE,),
+    name="OSHContentLink:Functional")

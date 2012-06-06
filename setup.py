@@ -32,7 +32,6 @@ long_description = (
     '********\n'
     )
 
-tests_require=['zope.testing']
 
 setup(name='Products.OSHContentLink',
       version=version,
@@ -55,13 +54,17 @@ setup(name='Products.OSHContentLink',
       namespace_packages=['Products', ],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools',
-                        # -*- Extra requirements: -*-
-                        ],
-      tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
-      test_suite = 'Products.OSHContentLink.tests.test_docs.test_suite',
+      install_requires=[
+          'setuptools',
+          # -*- Extra requirements: -*-
+      ],
+      extras_require={
+          'test': [
+              'plone.app.testing',
+              'mock',
+          ],
+      },
       entry_points="""
-      # -*- entry_points -*- 
+      # -*- entry_points -*-
       """,
       )
