@@ -1,22 +1,16 @@
-from zope.component import adapts
-from zope.interface import implements
-
-from Products.OSHContentLink.interfaces import IOSH_Link
-
 try:
     from osha.theme.adapter_textindexng3 import ContentAdapter as CMFContentAdapter
 except ImportError:
     from Products.TextIndexNG3.adapters.cmf_adapters import CMFContentAdapter
-
+from Products.OSHContentLink.interfaces import IOSH_Link
 from zopyx.txng3.core.content import IndexContentCollector as ICC
-from zopyx.txng3.core.interfaces import IIndexableContent
+from zope.component import adapts
+
 
 class OSHLinkContentAdapter(CMFContentAdapter):
-
-    """An adapter for OSH_Links files.
-    """
+    """An adapter for OSH_Links files."""
     adapts(IOSH_Link)
-    
+
     def indexableContent(self, fields):
         icc = ICC()
         if 'getId' in fields:
@@ -30,7 +24,6 @@ class OSHLinkContentAdapter(CMFContentAdapter):
         if 'getRemoteUrl' in fields:
             self.addRemoteUrlField(icc)
         return icc
-
 
     def addRemoteUrlField(self, icc):
         remote_url = self._c(self.context.getRemoteUrl())

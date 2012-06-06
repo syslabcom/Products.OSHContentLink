@@ -12,7 +12,6 @@
 __author__ = """syslab.com gmbh <info@syslab.com>"""
 __docformat__ = 'plaintext'
 
-from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 
 try:
@@ -22,27 +21,21 @@ except ImportError:
 else:
     HAS_LINGUAPLONE = True
 
-from zope.interface import implements
-import interfaces
-from Products.ATContentTypes.content.document import ATDocumentBase
-from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
-
+from AccessControl import ClassSecurityInfo
+from plone.memoize import ram
 from Products.OSHContentLink.config import *
-
-from Products.PortalTransforms.transforms.safe_html import scrubHTML
+from Products.OSHContentLink import OSHContentLinkMessageFactory as _
+from Products.Archetypes.ExtensibleMetadata import FLOOR_DATE
 from Products.ATContentTypes.content.document import ATDocumentSchema
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from Products.ATContentTypes.content.document import ATDocumentBase
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
-from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
-from zope.i18n import translate
-from plone.memoize.instance import memoize
-from plone.memoize import ram
-from time import time
-from Products.OSHContentLink import OSHContentLinkMessageFactory as _
-from zope.component import getMultiAdapter
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+from zope.interface import implements
 
-from Products.Archetypes.ExtensibleMetadata import FLOOR_DATE
+import interfaces
+
 
 schema = Schema((
 
@@ -51,8 +44,9 @@ schema = Schema((
         required=True,
         widget=RichWidget(
             label=_(u'oshlink_text_label', default=u"Description"),
-            description=_(u'oshlink_text_description', default="A descriptive text of the linked content."),
-            rows= 10,
+            description=_(u'oshlink_text_description',
+                          default="A descriptive text of the linked content."),
+            rows=10,
         ),
         searchable=True,
         validators=("python:('isTidyHtmlWithCleanup'", ')', ''),
@@ -74,24 +68,29 @@ schema = Schema((
         widget=StringField._properties['widget'](
             label=_(u'oshlink_remoteUrl_label', default=u"External URL"),
             size=80,
-            description=_(u'oshlink_remoteUrl_description', default=u"The web address of the information we link to."),
+            description=_(u'oshlink_remoteUrl_description',
+                default=u"The web address of the information we link to."),
         ),
     ),
     StringField(
         name='provider',
         required=False,
-        
         widget=ComputedWidget(
-            label=_(u'oshlink_provider_label', default=u'"Old style" Provider'),
-            description=_(u'oshlink_provider_description', default=u'This information is displayed for historic reasons, '
-             u'since Providers used to be entered as plain text. Please choose the appropriate provider from the "Provider of the linked information" field below.'),
+            label=_(u'oshlink_provider_label',
+                    default=u'"Old style" Provider'),
+            description=_(u'oshlink_provider_description',
+                default=u'This information is displayed for historic reasons, '
+                        u'since Providers used to be entered as plain text. '
+                        u'Please choose the appropriate provider from the '
+                        u'"Provider of the linked information" field below.'),
             condition="python:object.getProvider()!='' and not object.getRemoteProvider()",
         ),
     ),
     ReferenceField(
         name='remoteProvider',
         widget=ReferenceBrowserWidget(
-            label=_(u'ra_remoteProvider_label', default=u'Provider of this information'),
+            label=_(u'ra_remoteProvider_label',
+                    default=u'Provider of this information'),
             description=_(u'ra_remoteProvider_description', default=u''),
             allow_browse=False,
             show_results_without_query=True,
@@ -103,9 +102,12 @@ schema = Schema((
     LinesField(
         name='remoteLanguage',
         widget=MultiSelectionWidget(
-            description=_(u'oshlink_remoteLanguage_description', 
-                default=u"Select the languages in which the referenced information is available in. This does not refer to this page but to the link target!"),
-            label=_(u'oshlink_remoteLanguage_description', default=u"Languages of the target"),
+            description=_(u'oshlink_remoteLanguage_description',
+                default=u"Select the languages in which the referenced "
+                        u"information is available in. This does not refer to "
+                        u" this page but to the link target!"),
+            label=_(u'oshlink_remoteLanguage_description',
+                    default=u"Languages of the target"),
         ),
         vocabulary='getLanguages',
     ),
@@ -114,29 +116,35 @@ schema = Schema((
         name='cas',
         widget=TextAreaWidget(
             label=_(u'oshlink_cas_label', default=u"CAS"),
-            description=_(u'oshlink_cas_description', default=u"CAS Numbers. Enter one element per line"),
+            description=_(u'oshlink_cas_description',
+                          default=u"CAS Numbers. Enter one element per line"),
         ),
     ),
     TextField(
         name='einecs',
         widget=TextAreaWidget(
             label=_(u'oshlink_einecs_label', default=u"EINECS"),
-            description=_(u'oshlinl_einecs_description', default=u"EINECS Codes. Enter one element per line."),
+            description=_(u'oshlinl_einecs_description',
+                    default=u"EINECS Codes. Enter one element per line."),
         ),
     ),
     TextField(
         name='general_comments',
         widget=TextAreaWidget(
-            label=_(u'oshlink_general_comments_label', default=u"General comments"),
-            description=_(u'oshlink_general_comments_description', 
-                default=u"Add arbitrary comments to communicate during the workflow. These comments are not shown to the public."),
+            label=_(u'oshlink_general_comments_label',
+                    default=u"General comments"),
+            description=_(u'oshlink_general_comments_description',
+                default=u"Add arbitrary comments to communicate during the "
+                        u"workflow. These comments are not shown to the "
+                        u"public."),
         ),
     ),
     StringField(
         name='author',
         widget=StringField._properties['widget'](
             label=_(u'oshlink_author_label', default=u"Author"),
-            description=_(u'oshlink_author_description', default=u"The author of the published journal/article"),
+            description=_(u'oshlink_author_description',
+                default=u"The author of the published journal/article"),
             size=80,
         ),
     ),
@@ -144,34 +152,40 @@ schema = Schema((
         name='printref',
         widget=StringField._properties['widget'](
             label=_(u'oshlink_printref_label', default=u"Print reference"),
-            description=_(u'oshlink_printref_description', default=u"Print reference"),
+            description=_(u'oshlink_printref_description',
+                          default=u"Print reference"),
         ),
     ),
     StringField(
         name='organisation_name',
         widget=StringField._properties['widget'](
-            label=_(u'oshlink_organisation_name_label', default=u"Organisation name"),
-            description=_(u'oshlink_organisation_name_description', 
-                default=u"The Name of the organisation providing the linked information."),
+            label=_(u'oshlink_organisation_name_label',
+                    default=u"Organisation name"),
+            description=_(u'oshlink_organisation_name_description',
+                default=u"The Name of the organisation providing the linked "
+                        u"information."),
         ),
     ),
     TextField(
         name='isbn_d',
         widget=TextAreaWidget(
             label=_(u'oshlink_isbn_d_label', default=u"ISBN D"),
-            description=_(u'oshlink_isbn_d_description', default=u"ISBN numbers applicable to this information."),
+            description=_(u'oshlink_isbn_d_description',
+                default=u"ISBN numbers applicable to this information."),
         ),
     ),
     DateTimeField(
         name='publication_date',
         widget=CalendarWidget(
-            label=_(u'oshlink_publication_date_label', default=u"Publication date"),
-            description=_(u'oshlink_publication_date_description', default=u"The date on which this information has been published."),
+            label=_(u'oshlink_publication_date_label',
+                    default=u"Publication date"),
+            description=_(u'oshlink_publication_date_description',
+                default=u"The date on which this information has been "
+                        u"published."),
         ),
     ),
 ),
 )
-
 
 OSH_Link_schema = BaseSchema.copy() + \
      ATDocumentSchema.copy() + \
@@ -184,7 +198,7 @@ OSH_Link_schema['subject'].widget.visible['view'] = 'invisible'
 
 finalizeATCTSchema(OSH_Link_schema)
 
-unwantedFields = ['relatedItems', 'location', 'excludeFromNav', 
+unwantedFields = ['relatedItems', 'location', 'excludeFromNav',
     'tableContents', 'presentation', 'allowDiscussion']
 for name in unwantedFields:
     OSH_Link_schema[name].widget.visible['edit'] = 'invisible'
@@ -212,25 +226,21 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
     meta_type = 'OSH_Link'
     _at_rename_after_creation = True
     archetype_name = 'OSH Link'
-    
     schema = OSH_Link_schema
-
 
     security.declarePublic('getRecordtypeValues')
     def getRecordtypeValues(self):
-        """
-            get all possible values for osh_recordtype
-        """
-        if hasattr(self.portal_properties, 'osha_properties') and hasattr(self.portal_properties.osha_properties, 'osh_recordtypes'):
-            return ('',) + self.portal_properties.osha_properties.osh_recordtypes
+        """Get all possible values for osh_recordtype"""
+        properties = self.portal_properties
+        if (hasattr(properties, 'osha_properties') and
+            hasattr(properties.osha_properties, 'osh_recordtypes')):
+            return ('',) + properties.osha_properties.osh_recordtypes
         else:
             return ('',)
 
     security.declarePublic('getLanguages')
     def getLanguages(self):
-        """
-            get all possible languages
-        """
+        """Get all possible languages"""
         langs = self.portal_languages.listSupportedLanguages()
         langs.sort()
         return tuple(langs)
@@ -239,10 +249,12 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
 
     security.declareProtected('View', 'getDescription')
     def getDescription(self):
-        """ Accessor to fetch description generated from bodytext """
+        """Accessor to fetch description generated from bodytext"""
         text = self.getText()
-        # THis behaviour is not wanted anyway because too many oshlinks rely on old html in their description. removed 15.9.2008
-        #text = scrubHTML(text, valid={}, remove_javascript=True, raise_error=False)
+        # THis behaviour is not wanted anyway because too many oshlinks rely
+        # on old html in their description. removed 15.9.2008
+        # text = scrubHTML(text, valid={}, remove_javascript=True,
+        #                  raise_error=False)
         return text
 
     security.declareProtected('View', 'getDescription')
@@ -251,8 +263,8 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         return self.getDescription()
 
     def getCountry(self):
-        """ returns all countries set on this Link. Country describes in which countries
-            the link target is applicable to
+        """Returns all countries set on this Link. Country describes in which
+        countries the link target is applicable to.
         """
         return self.getField('country').getAccessor(self)()
 
@@ -270,7 +282,9 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         return effective is None and FLOOR_DATE or effective
 
     def getRemoteProviderUID(self):
-        """ return the UID of the provider, stored via reference. Used for indexing """
+        """Return the UID of the provider, stored via reference. Used for
+        indexing.
+        """
         f = self.getField('remoteProvider')
         return f.getRaw(self)
 
@@ -280,51 +294,52 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         return self.getProvider()
 
     def _render_cachekey_related(method, self):
-        preflang = getToolByName(self, 'portal_languages').getPreferredLanguage()
+        preflang = getToolByName(
+            self, 'portal_languages').getPreferredLanguage()
         path = "/".join(self.getPhysicalPath())
         modified = self.modified()
         return (preflang, path, modified)
 
     @ram.cache(_render_cachekey_related)
     def getRelatedSections(self):
-        """ Retrieve all sections implementing ISubsite that match the local Subjects """
+        """Retrieve all sections implementing ISubsite that match the local
+        Subjects.
+        """
         portal_catalog = getToolByName(self, 'portal_catalog')
-        sections = portal_catalog(object_provides='osha.policy.interfaces.ISingleEntryPoint', 
-                                  Subject=self.Subject(), 
-                                  review_state="published")
+        sections = portal_catalog(
+            object_provides='osha.policy.interfaces.ISingleEntryPoint',
+            Subject=self.Subject(),
+            review_state="published")
         rs = []
         for section in sections:
             rs.append(dict(title=section.Title, url=section.getURL()))
-        rs.sort(lambda x,y: cmp(x['title'].lower(), y['title'].lower()))
+        rs.sort(lambda x, y: cmp(x['title'].lower(), y['title'].lower()))
         return rs
-        
+
     @ram.cache(_render_cachekey_related)
     def getRelatedTerms(self):
         """ Retrieve all MLTTerms that match the local terms """
         portal_vocabularies = getToolByName(self, 'portal_vocabularies')
         portal_languages = getToolByName(self, 'portal_languages')
         lang = portal_languages.getPreferredLanguage()
-        portal_url = getToolByName(self, 'portal_url')  
-        
-        manager = portal_vocabularies.MultilingualThesaurus._getManager() 
-        
+        portal_url = getToolByName(self, 'portal_url')
+
+        manager = portal_vocabularies.MultilingualThesaurus._getManager()
+
         myterms = self.getField('multilingual_thesaurus').getAccessor(self)()
-        
+
         rs = []
         for term in myterms:
             caption = manager.getTermCaptionById(term, lang)
             if caption:
                 caption = caption.strip()
                 letter = caption[0].upper()
-                url = "%s/@@index_alphabetical?letter=%s&term_id=%s" %(portal_url.getPortalPath(), letter, term)
+                url = "%s/@@index_alphabetical?letter=%s&term_id=%s" % (
+                    portal_url.getPortalPath(), letter, term)
                 rs.append(dict(id=term, title=caption, url=url))
-        
-        rs.sort(lambda x,y: cmp(x['title'], y['title']))
+
+        rs.sort(lambda x, y: cmp(x['title'], y['title']))
         return rs
 
-        
+
 registerType(OSH_Link, PROJECTNAME)
-
-
-
-

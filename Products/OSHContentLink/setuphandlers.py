@@ -15,12 +15,12 @@ __docformat__ = 'plaintext'
 
 import logging
 logger = logging.getLogger('OSHContentLink: setuphandlers')
-from Products.OSHContentLink.config import PROJECTNAME
 from Products.OSHContentLink.config import DEPENDENCIES
 from Products.CMFCore.utils import getToolByName
 import transaction
 ##code-section HEAD
 ##/code-section HEAD
+
 
 def installGSDependencies(context):
     """Install dependend profiles."""
@@ -30,9 +30,11 @@ def installGSDependencies(context):
 
     shortContext = context._profile_path.split('/')[-3]
     if shortContext != 'OSHContentLink':
-        # the current import step is triggered too many times, this creates infinite recursions
+        # the current import step is triggered too many times, this
+        # creates infinite recursions
         # therefore, we'll only run it if it is triggered from proper context
-        logger.debug("installGSDependencies will not run in context %s" % shortContext)
+        logger.debug(
+            "installGSDependencies will not run in context %s" % shortContext)
         return
     logger.info("installGSDependencies started")
     dependencies = []
@@ -56,15 +58,19 @@ def installGSDependencies(context):
         importsteps = [s for s in importsteps if s not in excludes]
         for step in importsteps:
             logger.debug("     running import step %s" % step)
-            setup_tool.runImportStep(step) # purging flag here?
+            setup_tool.runImportStep(step)  # purging flag here?
             logger.debug("     finished import step %s" % step)
         # let's make quickinstaller aware that this product is installed now
         product_name = dependency.split(':')[0]
         qi.notifyInstalled(product_name)
         logger.debug("   notified QI that %s is installed now" % product_name)
-        # maybe a savepoint is welcome here (I saw some in optilude's examples)? maybe not? well...
+        # maybe a savepoint is welcome here (I saw some in optilude's
+        # examples)? maybe not? well...
         transaction.savepoint()
-        if old_context: # sometimes, for some unknown reason, the old_context is None, believe me
+
+        # sometimes, for some unknown reason, the old_context is None,
+        # believe me
+        if old_context:
             setup_tool.setImportContext(old_context)
         logger.debug("   installed GS dependency %s:" % dependency)
 
@@ -80,14 +86,16 @@ def installGSDependencies(context):
     ]
     importsteps = [s for s in importsteps if s in filter]
     for step in importsteps:
-        setup_tool.runImportStep(step) # purging flag here?
+        setup_tool.runImportStep(step)  # purging flag here?
     logger.info("installGSDependencies finished")
+
 
 def installQIDependencies(context):
     """This is for old-style products using QuickInstaller"""
     shortContext = context._profile_path.split('/')[-3]
-    if shortContext != 'OSHContentLink': # avoid infinite recursions
-        logger.debug("installQIDependencies will not run in context %s" % shortContext)
+    if shortContext != 'OSHContentLink':  # avoid infinite recursions
+        logger.debug(
+            "installQIDependencies will not run in context %s" % shortContext)
         return
     logger.info("installQIDependencies starting")
     site = context.getSite()
@@ -97,13 +105,13 @@ def installQIDependencies(context):
         if qi.isProductInstalled(dependency):
             logger.info("   re-Installing QI dependency %s:" % dependency)
             qi.reinstallProducts([dependency])
-            transaction.savepoint() # is a savepoint really needed here?
+            transaction.savepoint()  # is a savepoint really needed here?
             logger.debug("   re-Installed QI dependency %s:" % dependency)
         else:
             if qi.isProductInstallable(dependency):
                 logger.info("   installing QI dependency %s:" % dependency)
                 qi.installProduct(dependency)
-                transaction.savepoint() # is a savepoint really needed here?
+                transaction.savepoint()  # is a savepoint really needed here?
                 logger.debug("   installed dependency %s:" % dependency)
             else:
                 logger.info("   QI dependency %s not installable" % dependency)
@@ -111,15 +119,15 @@ def installQIDependencies(context):
     logger.info("installQIDependencies finished")
 
 
-
 def updateRoleMappings(context):
-    """after workflow changed update the roles mapping. this is like pressing
-    the button 'Update Security Setting' and portal_workflow"""
+    """After workflow changed update the roles mapping. This is like pressing
+    the button 'Update Security Setting' and portal_workflow
+    """
 
     shortContext = context._profile_path.split('/')[-3]
-    if shortContext != 'OSHContentLink': # avoid infinite recursions
+    if shortContext != 'OSHContentLink':  # avoid infinite recursions
         return
-    wft = getToolByName(context.getSite(), 'portal_workflow')
+    #wft = getToolByName(context.getSite(), 'portal_workflow')
     #wft.updateRoleMappings()
 
 
@@ -127,9 +135,9 @@ def postInstall(context):
     """Called as at the end of the setup process. """
     # the right place for your custom code
     shortContext = context._profile_path.split('/')[-3]
-    if shortContext != 'OSHContentLink': # avoid infinite recursions
+    if shortContext != 'OSHContentLink':  # avoid infinite recursions
         return
-    site = context.getSite()
+    #site = context.getSite()
 
 
 ##code-section FOOT

@@ -76,10 +76,10 @@ def initialize(context):
 
     cmfutils.ContentInit(
         PROJECTNAME + ' Content',
-        content_types      = content_types,
-        permission         = DEFAULT_ADD_CONTENT_PERMISSION,
-        extra_constructors = constructors,
-        fti                = ftis,
+        content_types=content_types,
+        permission=DEFAULT_ADD_CONTENT_PERMISSION,
+        extra_constructors=constructors,
+        fti=ftis,
         ).initialize(context)
 
     ##code-section custom-init-bottom #fill in your manual code here
