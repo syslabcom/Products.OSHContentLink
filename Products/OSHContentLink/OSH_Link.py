@@ -262,11 +262,11 @@ class OSH_Link(ATDocumentBase, BaseContent, BrowserDefaultMixin):
         """ Accessor to fetch description generated from bodytext """
         return self.getDescription()
 
-    def getCountry(self):
-        """Returns all countries set on this Link. Country describes in which
-        countries the link target is applicable to.
-        """
-        return self.getField('country').getAccessor(self)()
+#    def getCountry(self):
+#        """Returns all countries set on this Link. Country describes in which
+#        countries the link target is applicable to.
+#        """
+#        return self.getField('country').getAccessor(self)()
 
     security.declareProtected('View', 'EffectiveDate')
     def EffectiveDate(self):
